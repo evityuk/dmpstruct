@@ -1,4 +1,4 @@
-# dump-struct
+# dmpstruct
 Go try by writing utility package and cmd for dumping structs to map[string]interface{}
 
 ```Go
