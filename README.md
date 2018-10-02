@@ -1,8 +1,15 @@
 # dump-struct
-Go's utility for dumping structs to map[string]interface{}
+Go try by writing utility package and cmd for dumping structs to map[string]interface{}
 
-### Example
+```Go
+import "github.com/evityuk/dmpstruct"
 ```
+
+## Usage
+
+See [cmd/main.go]() for details
+
+```Go
 package main          
                       
 import (              
@@ -40,22 +47,25 @@ func main() {
 ```
 Results:
 ```
-Dumped: map["Name":"Dan" "age":"Field 'age' of type 'int8' is unexported" "Occupation":map["Name":"Boston" "code":"Field 'code' of type 'uint' is unexported"] "Employee":map["department":"Field 'department' of type 'string' is unexported" "position":"Field 'position' of type 'string' is unexported"]]
+Dumped: 
+map["Name":"Dan" "age":"Field 'age' of type 'int8' is unexported" "Occupation":map["Name":"Boston" "code":"Field 'code' of type 'uint' is unexported"] "Employee":map["department":"Field 'department' of type 'string' is unexported" "position":"Field 'position' of type 'string' is unexported"]]
 ```
 
 
 
-### TBD
+## TBD
 
 1. Add more test cases
-2. Add dump options 
-3. Change fmt.Print to go std log 
+2. Add dump options: log level(or by env var), replace unexported message with pkg's const
+3. Add documentation 
+4. Change fmt.Println to golang.org/x/log 
+5. Enhance cmd/main output(and possibly \_test.go output)
+5. Should tag be dumped?
 
 
-### Testing 
+
+## Testing 
 From project root run 
 ```
 >go test
 ```
-
-
