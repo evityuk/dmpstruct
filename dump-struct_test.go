@@ -2,7 +2,9 @@ package dmpstruct
 
 import (
 	"reflect"
+	"fmt"
 	"testing"
+	logrus "github.com/sirupsen/logrus"
 )
 
 type Employee struct {
@@ -13,6 +15,10 @@ type Employee struct {
 type OccupationInfo struct {
 	Name string
 	code uint
+}
+
+func init() {
+	Log.Level = logrus.InfoLevel
 }
 
 func TestDump(t *testing.T) {
@@ -28,15 +34,15 @@ func TestDump(t *testing.T) {
 		}{
 			"Dan", 50, OccupationInfo{"Boston", 33}, Employee{"Copywriting", "Editor in chief"},
 		}, map[string]interface{}{
-			"age":  "Field 'age' of type 'int8' is unexported",
+			"age":  fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "age", "int8"),
 			"Name": "Dan",
 			"Occupation": map[string]interface{}{
 				"Name": "Boston",
-				"code": "Field 'code' of type 'uint' is unexported",
+				"code": fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "code", "uint"),
 			},
 			"Employee": map[string]interface{}{
-				"department": "Field 'department' of type 'string' is unexported",
-				"position":   "Field 'position' of type 'string' is unexported",
+				"department": fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "department", "string"),
+				"position":   fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "position", "string"),
 			},
 		},
 			nil},

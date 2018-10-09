@@ -39,7 +39,7 @@ func Dump(structObject interface{}) (map[string]interface{}, error) {
 	for i := 0; i < nFields; i++ {
 		field := valOf.Field(i)
 		fName := sType.Field(i).Name
-		Log.Println("kind:", field.Kind().String(), "name:", fName, "field:", field)
+		Log.Debugln("kind:", field.Kind().String(), "name:", fName, "field:", field)
 		if field.CanInterface() {
 			if field.Kind() == reflect.Struct {
 				if dump, err := Dump(field.Interface()); err != nil {
