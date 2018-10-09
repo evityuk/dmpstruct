@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"yvitiuk/dmpstruct"
+	logrus "github.com/sirupsen/logrus"
+	"os"
+	"evityuk/dmpstruct"
 )
 
 type Employee struct {
@@ -24,12 +25,14 @@ type S struct {
 
 func main() {
 	s := S{"Dan", 50, OccupationInfo{"Boston", 3}, Employee{"Literature", "Writer"}}
+	
+	dmpstruct.Init(os.Stdout, &logrus.TextFormatter{}, logrus.DebugLevel)
 
 	dump, err := dmpstruct.Dump(s)
 	if err != nil {
-		fmt.Println("Dump error: ", err)
+		logrus.Println("Dump error: ", err)
 	} else {
-		fmt.Printf("Dumped: %q", dump)
+		logrus.WithFields(dump).Println("Dumped successfully: ")
 	}
 
 }
