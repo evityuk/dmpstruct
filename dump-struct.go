@@ -26,8 +26,9 @@ func Init(debugWriter io.Writer, formatter logrus.Formatter, level logrus.Level)
 
 func Dump(structObject interface{}) (map[string]interface{}, error) {
 	Log.Debugln("Dumping...", structObject)
-	if reflect.TypeOf(structObject).Kind() != reflect.Struct {
-		return nil, errors.New("structObject isn't struct")
+	if structObject == nil || reflect.TypeOf(structObject).Kind() != reflect.Struct {
+//		fmt.Println("error!")
+		return make(map[string]interface{})/*nil*/, errors.New("structObject isn't struct")
 	}
 
 	valOf := reflect.ValueOf(structObject)
