@@ -1,4 +1,4 @@
-//Go try by writing utility package and cmd for dumping structs to map[string]interface{}
+//Package dmpstruct is a GoLang try by writing utility package and cmd for dumping structs to map[string]interface{}
 package dmpstruct
 
 import (
