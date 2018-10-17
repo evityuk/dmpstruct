@@ -1,4 +1,4 @@
-//Go try by writing utility package and cmd for dumping structs to map[string]interface{}
+//Package dmpstruct is a GoLang try by writing utility package and cmd for dumping structs to map[string]interface{}
 package dmpstruct
 
 import (
@@ -8,19 +8,21 @@ import (
 	logrus "github.com/sirupsen/logrus"
 
 	"fmt"
-	"reflect"
 	"os"
+	"reflect"
 )
 
 const (
-	FORMAT_ERR_STRING        = "Error dumping field %q of type %q: %q"
-	FORMAT_UNEXPORTED_STRING = "Field %q of type %q is unexported"
+	//FormatErrString is a fmt.Printf like dump err format string
+	FormatErrString        = "Error dumping field %q of type %q: %q"
+	//FormatUnexportedString is fmt.Printf like unexported struct field replacement format string
+	FormatUnexportedString = "Field %q of type %q is unexported"
 )
 
+//Log is global logger instance
 var Log = logrus.New()
 
 func init() {
-	fmt.Println("CALLED")
 	Log.Out = os.Stderr
 	Log.Formatter = &logrus.TextFormatter{}
 	Log.Level = logrus.FatalLevel
@@ -67,7 +69,7 @@ func Dump(structObject interface{}) (map[string]interface{}, error) {
 				}
 
 				if dump, err := Dump(fieldStructObject); err != nil {
-					results[fName] = fmt.Sprintf(FORMAT_ERR_STRING, sType.Field(i).Name, field.Kind().String(), err)
+					results[fName] = fmt.Sprintf(FormatErrString, sType.Field(i).Name, field.Kind().String(), err)
 				} else {
 					results[fName] = dump
 				}
@@ -76,7 +78,7 @@ func Dump(structObject interface{}) (map[string]interface{}, error) {
 			}
 		} else {
 			//			results[field.Kind().String()] = nil
-			results[fName] = fmt.Sprintf(FORMAT_UNEXPORTED_STRING, sType.Field(i).Name, field.Kind().String())
+			results[fName] = fmt.Sprintf(FormatUnexportedString, sType.Field(i).Name, field.Kind().String())
 		}
 	}
 

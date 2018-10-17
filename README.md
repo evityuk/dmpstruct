@@ -1,4 +1,5 @@
 # dmpstruct
+[![Build Status](https://travis-ci.com/evityuk/dmpstruct.svg?branch=master)](https://travis-ci.com/evityuk/dmpstruct)
 [![GoDoc](https://godoc.org/github.com/evityuk/dmpstruct?status.svg)](https://godoc.org/github.com/evityuk/dmpstruct)
 
 Go try by writing utility package and cmd for dumping structs to map[string]interface{}
@@ -17,7 +18,7 @@ package main
 import (                                                                           
   logrus "github.com/sirupsen/logrus"                                              
   "os"                                                                             
-  "evityuk/dmpstruct"                                                              
+  "github.com/evityuk/dmpstruct"                                                              
 )                                                                                  
                                                                                    
 type Employee struct {                                                             
@@ -58,13 +59,11 @@ INFO[0000] Dumped successfully:
 Employee="map[department:Field \"department\" of type \"string\" is unexported position:Field \"position\" of type \"string\" is unexported]" Name=Dan Occupation="map[Name:Boston code:Field \"code\" of type \"uint\" is unexported]" age="Field \"age\" of type \"int8\" is unexported"
 ```
 
-
-
 ## TBD
 
 1. Should tag be dumped?
 2. Should cmd be able to dump package by cmd-line url?
-3. Should lint [errors](https://go-lint.appspot.com/github.com/evityuk/dmpstruct/cmd) by fixed? 
+
 
 ## Testing 
 From project root run 

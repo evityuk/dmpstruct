@@ -3,7 +3,7 @@ package main
 import (
 	logrus "github.com/sirupsen/logrus"
 	"os"
-	"evityuk/dmpstruct"
+	dmpstruct "github.com/evityuk/dmpstruct"
 )
 
 type Employee struct {
@@ -32,6 +32,6 @@ func main() {
 	if err != nil {
 		logrus.Println("Dump error: ", err)
 	} else {
-		logrus.WithFields(dump).Println("Dumped successfully: \n")
+		logrus.WithFields(dump).Println("Dumped successfully: ")
 	}
 }
