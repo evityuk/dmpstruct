@@ -28,11 +28,12 @@ func main() {
 	
 	dmpstruct.Init(os.Stdout, &logrus.TextFormatter{}, logrus.DebugLevel)
 
-	dump, err := dmpstruct.Dump(s)
+	dump, err := dmpstruct.Dump(&s)
 	if err != nil {
 		logrus.Println("Dump error: ", err)
 	} else {
 		logrus.WithFields(dump).Println("Dumped successfully: \n")
 	}
+
 
 }

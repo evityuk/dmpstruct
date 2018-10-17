@@ -4,8 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"os"
+
 	logrus "github.com/sirupsen/logrus"
-//	"net/url"
+
+	"net/url"
 	"reflect"
 	"testing"
 )
@@ -20,7 +22,7 @@ type OccupationInfo struct {
 	code uint
 }
 
-type NamedType int64
+type NamedType int32
 type Comparator func(int, int) int
 type IntMap map[string]int
 type SomeInterface interface {
@@ -33,14 +35,26 @@ func (this SomeInterfaceImpl) SomeMethod(arg1 string) (string, error) {
 }
 
 var intPtrGetter = constPtr(10)
-var readableChannel = make(chan string)
+var rwChannel = make(chan string)
 var interfaceImpl = SomeInterfaceImpl{}
 
 func comparator(a int, b int) int {
 	return b - a
 }
 
-func TestDump(t *testing.T) {
+var user = url.UserPassword("admin", "password")
+var errInstance = errors.New("Some error")
+
+func TestDumpPositive(t *testing.T) {
+	namedTypeValue := NamedType(3)
+	structPtr := &(struct {
+		FieldA string
+		FieldB *OccupationInfo
+		FieldC *NamedType
+	}{
+		FieldA: "someString", FieldB: &OccupationInfo{"Office", 6}, FieldC: &namedTypeValue,
+	})
+
 	cases := []struct {
 		in, want interface{}
 		err      error
@@ -64,7 +78,7 @@ func TestDump(t *testing.T) {
 				"position":   fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "position", "string"),
 			},
 		},
-			nil},/*
+			nil},
 		{struct {
 			Public          string
 			ZeroValueString string
@@ -72,38 +86,38 @@ func TestDump(t *testing.T) {
 			ZeroValueFloat  float32
 			ZeroValueBool   bool
 
-		//	IntPtr *int
+			IntPtr *int
 
 			SomeNamedType NamedType
 			NamedType
 
-	//		ReadableChannel chan<- string
-			//	WriteableChannel chan-> string
+			Channel chan string
 
-//			SomeFunc Comparator
+			//SomeFunc Comparator
 		}{
-			Public: "Field", SomeNamedType: 16, 
-			//IntPtr: intPtrGetter(), 
-			NamedType: 32,
-		//	ReadableChannel: readableChannel,
-	//		SomeFunc:        comparator,
+			Public:        "Field",
+			SomeNamedType: NamedType(16),
+			IntPtr:        intPtrGetter(),
+			NamedType:     NamedType(32),
+			Channel:       rwChannel,
+			//	SomeFunc:        comparator,
 		}, map[string]interface{}{
+			"ZeroValueBool": false,
+			"SomeNamedType": NamedType(16),
+			"NamedType":     NamedType(32),
+
 			"Public":          "Field",
 			"ZeroValueString": "",
 			"ZeroValueInt":    0,
 			"ZeroValueFloat":  float32(0.0),
-			"ZeroValueBool": false,
+			"IntPtr":          intPtrGetter(),
 
-			"SomeNamedType":   16,
-			"NamedType":       32,
-	//		"IntPtr":        intPtrGetter(),
+			"Channel": rwChannel,
 
-			//"ReadableChannel": readableChannel,
-
-		//	"SomeFunc": reflect.ValueOf(comparator).Interface(),
+			//"SomeFunc": reflect.ValueOf(comparator).Interface(),
 		},
-			nil},*/
-		/*{struct {
+			nil},
+		{struct {
 			ErrField       error
 			InterfaceField interface {
 				SomeMethod(string) (string, error)
@@ -114,48 +128,96 @@ func TestDump(t *testing.T) {
 			IntArr   [5]int
 			IntSlice []int
 
-			ObjArray []interface{}
+			ObjArr   [2]interface{}
+			ObjSlice []interface{}
 		}{
-			errors.New("Some error"),
+			errInstance,
 			interfaceImpl,
 			url.URL{
 				Scheme:   "https",
-				User:     url.UserPassword("admin", "password"),
+				User:     user,
 				Host:     "github.com",
 				Path:     "evityuk/dmpstruct",
 				RawQuery: "x=1&y=2",
 			},
 			[5]int{1, 2, 4, 8, 16},
-			[]int{1,2,3,5,8,13},
-			[]interface{}{"string", 2, 3.14, true, nil},
+			[]int{1, 2, 3, 5, 8, 13},
+			[2]interface{}{0.0, errInstance},
+			[]interface{}{"string", 2, 3.14, true, nil, map[string]interface{}{"2": 4, "3": "8", "4th": 16.0}},
 		}, map[string]interface{}{
-			"ErrField":       errors.New("Some error"),
+			"ErrField":       errInstance,
 			"InterfaceField": interfaceImpl,
-			"SomeStruct": url.URL{
-				Scheme:   "https",
-				User:     url.UserPassword("admin", "password"),
-				Host:     "github.com",
-				Path:     "evityuk/dmpstruct",
-				RawQuery: "x=1&y=2",
+			"SomeStruct": map[string]interface{}{
+				"Fragment":   "",
+				"Scheme":     "https",
+				"Opaque":     "",
+				"ForceQuery": false,
+				"User": map[string]interface{}{
+					"username":    fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "username", "string"),
+					"password":    fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "password", "string"),
+					"passwordSet": fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "passwordSet", "bool"),
+				},
+				"Host":     "github.com",
+				"Path":     "evityuk/dmpstruct",
+				"RawPath":  "",
+				"RawQuery": "x=1&y=2",
 			},
 			"IntArr":   [5]int{1, 2, 4, 8, 16},
-			"IntSlice": []int{1,2,3,5,8,13},
-			"ObjArray": []interface{}{"string", 2, 3.14, true, nil},
-		}, nil},*/
+			"IntSlice": []int{1, 2, 3, 5, 8, 13},
+			"ObjArr":   [2]interface{}{0.0, errInstance},
+			"ObjSlice": []interface{}{"string", 2, 3.14, true, nil, map[string]interface{}{"2": 4, "3": "8", "4th": 16.0}},
+		},
+			nil},
 		{
-			nil, map[string]interface{}{}, errors.New("structObject isn't struct"), //nil implicitly converted to empty map[string]interface{}
+			structPtr, map[string]interface{}{
+				"FieldA": "someString",
+				"FieldB": map[string]interface{}{
+					"Name": "Office",
+					"code":       fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "code", "uint"),
+				},
+				"FieldC": &namedTypeValue,
+			}, nil,
 		},
 	}
 
 	for _, c := range cases {
 		got, err := Dump(c.in)
-		/*		if err != c.err {
-				t.Errorf("Dump(%q) == ",)
-			}*/
-	//		fmt.Println("Got: ", got, reflect.TypeOf(got))
-		//	fmt.Println(reflect.DeepEqual(err, c.err), got, c.want)
-		if !reflect.DeepEqual(err, c.err) /*(err != nil && err.Error() != c.err.Error())*/ || !reflect.DeepEqual(got, c.want) {
-			t.Errorf("Dump(\n%q\n) == (\n%q, \n%q\n), want (\n%q, \n%q\n)", c.in, got, err, c.want, c.err)
+
+		if !reflect.DeepEqual(err, c.err) || !reflect.DeepEqual(got, c.want) {
+			t.Errorf("Dump(\n%#v\n) == (\n%#v, \n%v\n), want (\n%#v, \n%v\n)", c.in, got, err, c.want, c.err)
+		}
+	}
+}
+
+func TestDumpNegative(t *testing.T) {
+	cases := []struct {
+		in, want interface{}
+		err      error
+	}{
+		{
+			nil, map[string]interface{}(nil), errors.New("structObject isn't struct or pointer to struct"),
+		},
+		{
+			1, map[string]interface{}(nil), errors.New("structObject isn't struct or pointer to struct"),
+		},
+		{
+			3.14, map[string]interface{}(nil), errors.New("structObject isn't struct or pointer to struct"),
+		},
+		{
+			"string", map[string]interface{}(nil), errors.New("structObject isn't struct or pointer to struct"),
+		},
+		{
+			[1]int{1}, map[string]interface{}(nil), errors.New("structObject isn't struct or pointer to struct"),
+		},
+		{
+			&[]string{"string1", "string2", ""}, map[string]interface{}(nil), errors.New("structObject isn't struct or pointer to struct"),
+		},
+	}
+
+	for _, c := range cases {
+		got, err := Dump(c.in)
+		if !reflect.DeepEqual(err, c.err) || !reflect.DeepEqual(got, c.want) {
+			t.Errorf("Dump(\n%#v\n) == (\n%#v, \n%v\n), want (\n%#v, \n%v\n)", c.in, got, err, c.want, c.err)
 		}
 	}
 }
