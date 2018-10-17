@@ -1,4 +1,5 @@
 # dmpstruct
+[![Build Status](https://travis-ci.com/evityuk/dmpstruct.svg?branch=master)](https://travis-ci.com/evityuk/dmpstruct)
 [![GoDoc](https://godoc.org/github.com/evityuk/dmpstruct?status.svg)](https://godoc.org/github.com/evityuk/dmpstruct)
 
 Go try by writing utility package and cmd for dumping structs to map[string]interface{}
@@ -17,7 +18,7 @@ package main
 import (                                                                           
   logrus "github.com/sirupsen/logrus"                                              
   "os"                                                                             
-  "evityuk/dmpstruct"                                                              
+  "github.com/evityuk/dmpstruct"                                                              
 )                                                                                  
                                                                                    
 type Employee struct {                                                             
@@ -57,8 +58,6 @@ Dumped:
 INFO[0000] Dumped successfully:                          
 Employee="map[department:Field \"department\" of type \"string\" is unexported position:Field \"position\" of type \"string\" is unexported]" Name=Dan Occupation="map[Name:Boston code:Field \"code\" of type \"uint\" is unexported]" age="Field \"age\" of type \"int8\" is unexported"
 ```
-
-
 
 ## TBD
 
