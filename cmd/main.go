@@ -3,7 +3,7 @@ package main
 import (
 	logrus "github.com/sirupsen/logrus"
 	"os"
-	dmpstruct "github.com/evityuk/dmpstruct"
+	"github.com/evityuk/dmpstruct"
 )
 
 type Employee struct {
