@@ -32,6 +32,6 @@ func main() {
 	if err != nil {
 		logrus.Println("Dump error: ", err)
 	} else {
-		logrus.WithFields(dump).Println("Dumped successfully: \n")
+		logrus.WithFields(dump).Println("Dumped successfully: ")
 	}
 }

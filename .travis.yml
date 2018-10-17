@@ -1,16 +1,22 @@
 language: go
 
 go:
-  - "1.x"
   - "1.9"
   - "1.10.x"
   - master
+
+# Don't email me the results of the test runs.
+notifications:
+  email: false
 
 before_install:
   - go get -v golang.org/x/lint/golint
 
 install:
   - go get -t -v ./...
+
+before_script:
+  - golint
 
 script: 
   - go test ./... -v
