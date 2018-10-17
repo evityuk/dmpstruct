@@ -30,7 +30,7 @@ type SomeInterface interface {
 }
 type SomeInterfaceImpl struct{}
 
-func (this SomeInterfaceImpl) SomeMethod(arg1 string) (string, error) {
+func (SomeInterfaceImpl) SomeMethod(arg1 string) (string, error) {
 	return arg1, nil
 }
 
@@ -67,15 +67,15 @@ func TestDumpPositive(t *testing.T) {
 		}{
 			"Dan", 50, OccupationInfo{"Boston", 33}, Employee{"Copywriting", "Editor in chief"},
 		}, map[string]interface{}{
-			"age":  fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "age", "int8"),
+			"age":  fmt.Sprintf(FormatUnexportedString, "age", "int8"),
 			"Name": "Dan",
 			"Occupation": map[string]interface{}{
 				"Name": "Boston",
-				"code": fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "code", "uint"),
+				"code": fmt.Sprintf(FormatUnexportedString, "code", "uint"),
 			},
 			"Employee": map[string]interface{}{
-				"department": fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "department", "string"),
-				"position":   fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "position", "string"),
+				"department": fmt.Sprintf(FormatUnexportedString, "department", "string"),
+				"position":   fmt.Sprintf(FormatUnexportedString, "position", "string"),
 			},
 		},
 			nil},
@@ -153,9 +153,9 @@ func TestDumpPositive(t *testing.T) {
 				"Opaque":     "",
 				"ForceQuery": false,
 				"User": map[string]interface{}{
-					"username":    fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "username", "string"),
-					"password":    fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "password", "string"),
-					"passwordSet": fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "passwordSet", "bool"),
+					"username":    fmt.Sprintf(FormatUnexportedString, "username", "string"),
+					"password":    fmt.Sprintf(FormatUnexportedString, "password", "string"),
+					"passwordSet": fmt.Sprintf(FormatUnexportedString, "passwordSet", "bool"),
 				},
 				"Host":     "github.com",
 				"Path":     "evityuk/dmpstruct",
@@ -173,7 +173,7 @@ func TestDumpPositive(t *testing.T) {
 				"FieldA": "someString",
 				"FieldB": map[string]interface{}{
 					"Name": "Office",
-					"code":       fmt.Sprintf(FORMAT_UNEXPORTED_STRING, "code", "uint"),
+					"code": fmt.Sprintf(FormatUnexportedString, "code", "uint"),
 				},
 				"FieldC": &namedTypeValue,
 			}, nil,

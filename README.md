@@ -64,7 +64,7 @@ Employee="map[department:Field \"department\" of type \"string\" is unexported p
 
 1. Should tag be dumped?
 2. Should cmd be able to dump package by cmd-line url?
-3. Should lint [errors](https://go-lint.appspot.com/github.com/evityuk/dmpstruct/cmd) by fixed? 
+
 
 ## Testing 
 From project root run 
