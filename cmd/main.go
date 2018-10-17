@@ -34,6 +34,4 @@ func main() {
 	} else {
 		logrus.WithFields(dump).Println("Dumped successfully: \n")
 	}
-
-
 }

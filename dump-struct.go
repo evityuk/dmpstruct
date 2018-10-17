@@ -60,7 +60,7 @@ func Dump(structObject interface{}) (map[string]interface{}, error) {
 		if field.CanInterface() {
 			var isStructPointer = field.Kind() == reflect.Ptr && field.Elem().Kind() == reflect.Struct
 
-			if field.Kind() == reflect.Struct || (isStructPointer) {
+			if field.Kind() == reflect.Struct || isStructPointer {
 				var fieldStructObject = field.Interface()
 				if isStructPointer {
 					fieldStructObject = field.Elem().Interface()

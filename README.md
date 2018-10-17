@@ -42,7 +42,7 @@ func main() {
                                                                                    
   dmpstruct.Init(os.Stdout, &logrus.TextFormatter{}, logrus.DebugLevel)            
                                                                                    
-  dump, err := dmpstruct.Dump(s)                                                   
+  dump, err := dmpstruct.Dump(&s)                                                   
   if err != nil {                                                                  
     logrus.Println("Dump error: ", err)                                            
   } else {                                                                         
@@ -62,10 +62,9 @@ Employee="map[department:Field \"department\" of type \"string\" is unexported p
 
 ## TBD
 
-1. Add more test cases
-5. Should tag be dumped?
-
-
+1. Should tag be dumped?
+2. Should cmd be able to dump package by cmd-line url?
+3. Should lint [errors](https://go-lint.appspot.com/github.com/evityuk/dmpstruct/cmd) by fixed? 
 
 ## Testing 
 From project root run 
