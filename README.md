@@ -11,7 +11,7 @@ import "github.com/evityuk/dmpstruct"
 *Check next packages for more mature implementations:*
  - https://github.com/davecgh/go-spew(+++)
  - https://github.com/fatih/structtag(++)
- - https://github.com/fatih/gomodifytags(structtag modification - "offtopic one")
+ - https://github.com/fatih/gomodifytags (*structtag modification* - "offtopic one")
 
 ## Usage
 
