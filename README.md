@@ -8,6 +8,11 @@ Go try by writing utility package and cmd for dumping structs to map[string]inte
 import "github.com/evityuk/dmpstruct"
 ```
 
+*Check next packages for more mature implementations:*
+ - https://github.com/davecgh/go-spew(+++)
+ - https://github.com/fatih/structtag(++)
+ - https://github.com/fatih/gomodifytags(structtag modification - "offtopic one")
+
 ## Usage
 
 See [cmd/main.go]() for details
