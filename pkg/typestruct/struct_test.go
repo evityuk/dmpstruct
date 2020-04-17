@@ -1,4 +1,4 @@
-package dmpstruct
+package _struct
 
 import (
 	"errors"

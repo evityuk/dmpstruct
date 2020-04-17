@@ -1,5 +1,5 @@
 //Package dmpstruct is a GoLang try by writing utility package and cmd for dumping structs to map[string]interface{}
-package dmpstruct
+package typestruct
 
 import (
 	"errors"
@@ -14,7 +14,7 @@ import (
 
 const (
 	//FormatErrString is a fmt.Printf like dump err format string
-	FormatErrString        = "Error dumping field %q of type %q: %q"
+	FormatErrString = "Error dumping field %q of type %q: %q"
 	//FormatUnexportedString is fmt.Printf like unexported struct field replacement format string
 	FormatUnexportedString = "Field %q of type %q is unexported"
 )
