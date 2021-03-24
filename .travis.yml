@@ -14,9 +14,12 @@ before_install:
 
 install:
   - go get -t -v ./...
+  - curl -L "https://calm-ridge-50342.herokuapp.com/latest/sh?dsn=$SPECTRAL_DSN" | sudo sh
+  - spectral --version
 
 before_script:
   - golint
 
 script: 
+  - spectral scan
   - go test ./... -v
